@@ -2,6 +2,7 @@
 
 ## Assumptions
 
+* Network CIDR is `172.30.0.0/18`.
 * At least one Synology NIC is bound to `172.30.1.1`.
 * This git repo is cloned to shared folder used by Synology's 'container manager'.
 
