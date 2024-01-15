@@ -20,6 +20,7 @@ sudo docker network create -d macvlan -o parent=eth5 --subnet=172.30.0.0/18 --ga
 
 ## Projects
 
+```text
 | Name                                          | Binding
 | :-------------------------------------------- |
 | dns                                           |
@@ -42,6 +43,7 @@ sudo docker network create -d macvlan -o parent=eth5 --subnet=172.30.0.0/18 --ga
 | └─── proxy                                    | :5011/
 | [pxe-server](./pxe-server/)                   |
 | └─── netbootxyz                               | 172.30.1.36
+```
 
 ## General Practices
 
