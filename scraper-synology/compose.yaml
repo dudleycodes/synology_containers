@@ -1,0 +1,102 @@
+version: '3.9'
+services:
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: scraper-synology-cadvisor
+    command:
+      - '--docker_only=true'
+      - '-port=8080'
+      - '-url_base_prefix=/cadvisor'
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+    networks:
+      - scraper-synology_network
+    expose:
+      - 8080
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/cadvisor/containers"]
+      interval: 30s
+      timeout: 4s
+      retries: 2
+      start_period: 10s
+
+  node_exporter:
+    image: prom/node-exporter:latest
+    container_name: scraper-synology-node_exporter
+    command:
+      - --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)
+      - --path.procfs=/host/proc
+      - --path.sysfs=/host/sys
+      - --path.rootfs=/rootfs
+      - --web.telemetry-path=/node_exporter/metrics
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    networks:
+      - scraper-synology_network
+    pid: host
+    ports:
+      - 9100:9100
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:9100/metrics"]
+      interval: 30s
+      timeout: 4s
+      retries: 3
+      start_period: 10s
+
+  prometheus:
+    image: prom/prometheus
+    container_name: scraper-synology-prometheus
+    volumes:
+      - /volume2/docker/scraper-synology/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.route-prefix=/prometheus
+      - --web.external-url=/prometheus
+    networks:
+      - scraper-synology_network
+    ports:
+      - 9090:9090
+    depends_on:
+      - cadvisor
+      - node_exporter
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:9090/prometheus/metrics"]
+      interval: 30s
+      timeout: 4s
+      retries: 2
+      start_period: 10s
+
+  proxy:
+    image: nginx:latest
+    container_name: scraper-synology-proxy
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      interval: 30s
+      timeout: 4s
+      retries: 2
+      start_period: 10s
+    ports:
+      - 5010:80
+    networks:
+      - scraper-synology_network
+    volumes:
+      - /volume2/docker/scraper-synology/proxy/html/:/usr/share/nginx/html:ro
+      - /volume2/docker/scraper-synology/proxy/logs:/var/log/nginx:rw
+      - /volume2/docker/scraper-synology/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+
+
+networks:
+  scraper-synology_network:
+    driver: bridge
