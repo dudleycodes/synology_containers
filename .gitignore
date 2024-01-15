@@ -1,0 +1,57 @@
+### Project Specific ###
+.env
+*.log
+*.zim
+
+
+#### synology_containers/adguard
+adguard/conf/**
+!adguard/conf/.gitkeep
+adguard/work/**
+!adguard/work/.gitkeep
+
+#### synology_containers/heimdall
+heimdall/config/**
+!heimdall/config/.gitkeep
+
+
+### Synology Cruft ###
+\#recycle
+
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
+
+
+### Linux Cruft ###
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+
+### macOS Cruft ###
+.AppleDouble
+.com.apple.timemachine.donotpresent
+.DocumentRevisions-V100
+.DS_Store
+.fseventsd
+.LSOverride
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+
+
+### Windows Cruft ###
+*.lnk
+[Dd]esktop.ini
+ehthumbs.db
+Thumbs.db
+
+

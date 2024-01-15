@@ -1,0 +1,26 @@
+* text=auto eol=lf encoding=utf-8
+
+## Common Files
+.editorconfig text
+LICENSE text
+
+
+## Common File Types
+*.avif  binary
+*.gif   binary
+*.html  text
+*.ico   binary
+*.jpg   binary
+*.jpeg  binary
+*.js    text
+*.json  text
+*.md    text
+*.mp4   binary
+*.ogg   binary
+*.ogv   binary
+*.png   binary
+*.svg   text
+*.webp  binary
+*.webm  binary
+*.yaml  text
+*.yml   text

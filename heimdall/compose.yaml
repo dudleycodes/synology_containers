@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall-heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - /volume2/docker/heimdall/config:/config:rw
+    restart: unless-stopped
+    networks:
+      eth5_macvlan:
+        ipv4_address: 172.30.1.33
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost"]
+      interval: 30s
+      timeout: 4s
+      retries: 3
+      start_period: 10s
+
+
+networks:
+  eth5_macvlan:
+    external: true      # Network maintained externally; compose won't attempt to create, returning an error if one doesn't exist.
+    name: eth5_macvlan

@@ -1,0 +1,46 @@
+{
+    "cSpell.words": [
+        "adgaurd",
+        "adguard",
+        "cadvisor",
+        "Healthchecks",
+        "Kiwix",
+        "macvlan",
+        "netbootxyz",
+        "preconfigured",
+        "Ubiquiti",
+        "Unifi",
+        "unpoller"
+    ],
+    "files.eol": "\n",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "#recycle": true,
+    },
+    "markdownlint.ignore": [
+        ".gitkeep",
+        "LICENSE"
+    ],
+    "[markdown]": {
+        "cSpell.fixSpellingWithRenameProvider": true,
+        "cSpell.advanced.feature.useReferenceProviderWithRename": true,
+        "cSpell.advanced.feature.useReferenceProviderRemove": "/^#+\\s/",
+        "editor.rulers": [120],
+        "editor.unicodeHighlight.ambiguousCharacters": true,
+        "editor.unicodeHighlight.invisibleCharacters": true,
+        "editor.wordWrap": "on"
+    },
+    "[yaml]": {
+        "editor.autoIndent": "keep",
+        "editor.insertSpaces": true,
+        "editor.rulers": [120],
+        "editor.tabSize": 2,
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": true
+        }
+    }
+}

@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  adguardhome:
+    image: adguard/adguardhome
+    container_name: adguard-adguard
+    environment:
+      - TZ=America/Chicago
+    volumes:
+      - /volume2/docker/adguard/conf:/opt/adguardhome/conf
+      - /volume2/docker/adguard/work:/opt/adguardhome/work
+    network_mode: host
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://172.30.1.1:8053"]
+      interval: 30s
+      timeout: 4s
+      retries: 2
+      start_period: 10s
